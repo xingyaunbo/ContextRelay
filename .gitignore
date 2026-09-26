@@ -1,0 +1,5 @@
+# 只公开 README 与 release 安装包，不公开源码。
+# 忽略仓库内一切文件，仅保留 README.md 和本文件。
+*
+!README.md
+!.gitignore
