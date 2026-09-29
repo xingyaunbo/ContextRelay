@@ -6,10 +6,10 @@ AI Relay：把 **Codex（规划）** 与 **豆包（执行）** 桥接起来的 
 - **豆包**：在「工作模式」下真实执行（读写文件、排版、生成 Word/PDF 等）。
 - **AI Relay**：编排、RPA（CDP 自动驱动豆包 UI）、状态机与 SQLite 存储。
 
-## 一键安装（推荐，装完即用）
+## 一键安装（装完即用）
 
 1. **前置**：先装好并登录 **豆包桌面客户端** 和 **Codex 桌面应用**（这两个是外部依赖，安装包不包含）。
-2. 到 [Releases](https://github.com/xingyaunbo/ContextRelay/releases) 下载最新 `ContextRelay-Setup.exe`，双击安装。
+2. 到 [Releases](https://github.com/xingyaunbo/ContextRelay/releases) 下载最新 `ContextRelay-Setup.exe`（当前 v1.1.2），双击安装。
 3. 安装完成后**自动**做好两件收尾（`postinstall.ps1`）：
    - 把 ai-relay 技能安装到 `~/.agents/skills/ai-relay/SKILL.md`
    - 把 `ContextRelay-MCP.exe` 注册进 `~/.codex/config.toml` 的 `[mcp_servers.aiRelay]`
@@ -21,31 +21,21 @@ AI Relay：把 **Codex（规划）** 与 **豆包（执行）** 桥接起来的 
    Codex 会走：ai-relay skill → `relay_execute_task`（异步提交）→ 豆包工作模式执行 → `relay_get_result` 轮询 → 拿到结果回复你。
 
 > 安装包默认装到 `C:\Users\<你的用户名>\AppData\Local\Programs\ContextRelay\`（免管理员）。
+> 豆包客户端安装位置无需特殊配置，Relay 会自动探测并自动驱动。
 
-## 源码部署（开发者）
+## 侧边窗（可选的可视化面板）
 
-从零用源码跑（改代码、二次开发）见 [DEPLOY.md](DEPLOY.md)。
+安装后桌面/开始菜单里的 **ContextRelay** 是侧边窗，用于查看会话、切换豆包电脑。它常驻系统托盘：
 
-## 目录结构
+- 点窗口的 **×** 不会退出，而是最小化到右下角系统托盘，后台继续运行。
+- 托盘图标右键 →「退出」才真正结束进程；单击/双击托盘图标可重新打开窗口。
 
-| 目录/文件 | 说明 |
-| --- | --- |
-| `agents/` | Codex 客户端与规划提示词 |
-| `core/` | 编排、任务契约、文件任务 |
-| `rpa/` | 豆包 CDP 自动化、窗口操作 |
-| `storage/` | SQLite 存储 |
-| `ui/` | GUI（主界面 + 悬浮侧边窗） |
-| `mcp_server.py` | MCP server（Codex 调用入口） |
-| `skills/ai-relay/SKILL.md` | Codex 的 ai-relay skill |
-| `config.py` | 全局配置 |
-| `postinstall.ps1` | 安装后自动装 skill + 注册 MCP |
-| `installer.iss` | Inno Setup 安装包脚本 |
+## 最近更新
 
-## 文档
+- **v1.1.2**：侧边窗点 × 最小化到系统托盘（右键退出），解决「窗口关了进程还在、托盘找不到」的问题。
+- **v1.1.1**：自动探测豆包安装路径，修复换机器后豆包被强杀却重启失败导致的闪退。
+- **v1.1.0**：一键安装（自动装 ai-relay skill + 注册 aiRelay MCP server），装完即用。
 
-- [使用手册.md](使用手册.md) —— 完整功能说明
-- [DEPLOY.md](DEPLOY.md) —— 从零部署教程
+## 源码
 
-## 许可
-
-本仓库提供源码与使用说明，供学习与自用。
+本仓库仅公开 README 与 Release 安装包，源码不公开。
